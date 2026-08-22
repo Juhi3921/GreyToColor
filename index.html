@@ -6,91 +6,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>GreyToColor</title>
-
     <style>
-
         html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+body {
+    margin: 0;
+    padding: 0;
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+    width: 100%;
+    height: 100%;
 
-            background-color: black;
+    min-height: 100vh;
 
-            font-family: Arial, sans-serif;
-        }
+    overflow: hidden;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    background-color: black;
+
+    font-family: Arial, sans-serif;
+
+    color: white;
+
+    user-select: none;
+
+    position: relative;
+
+    cursor: none;
+
+    box-sizing: border-box;
+
+    text-align: center;
+
+    transition: background-color 0.3s ease;
+}
         /* Main image container */
-
         #contaigner {
             position: absolute;
             display: block;
         }
-
-
         /* Grey image */
-
         #contaigner .img_grey {
             display: block;
-
             width: 600px;
             height: auto;
-
             border-radius: 10px;
-
             filter: grayscale(100%);
-
             user-select: none;
-
             cursor: none;
         }
-
-
         /* Reveal area */
-
         #cursor {
             position: absolute;
-
             width: 200px;
             height: 200px;
-
             overflow: hidden;
-
             border-radius: 50%;
-
             background-color: transparent;
-
             border: 2px solid white;
-
             cursor: none;
-
             pointer-events: none;
         }
-
-
         /* Colored image */
-
         #img {
             position: absolute;
-
             width: 600px;
             height: auto;
-
             user-select: none;
-
             pointer-events: none;
         }
-
-
         /* Title */
-
         #title {
             position: fixed;
             top: 20px;
@@ -174,49 +160,49 @@
 
             cursor: default;
         }
-
-
         /* Small screen */
-
         @media (max-width: 700px) {
-
             #contaigner .img_grey {
                 width: 90vw;
             }
-
             #img {
                 width: 90vw;
             }
-
             #controls {
                 width: 180px;
             }
-
             #title h1 {
                 font-size: 20px;
             }
         }
-
     </style>
 </head>
 <body>
-    <!-- Page title -->
-    <div id="title">
-        <h1>Color Reveal</h1>
-        <p>
-            Move your mouse over the image
-        </p>
+  <!-- Page title -->
 
+<div id="title">
+
+    <h1>Color Reveal</h1>
+
+    <p>
+        Move your mouse over the image
+    </p>
+
+    <p>
+        Discover the hidden colors
+    </p>
+
+    <div id="title-info">
+        Interactive Image Experiment
     </div>
-    <!-- Main image -->
 
+</div>
+    <!-- Main image -->
     <section
         id="contaigner"
         style="top: auto; left: auto;"
     >
-
         <!-- Grey version -->
-
         <img
             draggable="false"
             class="img_grey"
@@ -224,41 +210,27 @@
             src="./Img.jpg"
             alt="Grey image"
         >
-
-
         <!-- Reveal circle -->
-
         <div
             id="cursor"
             style="width: 200px; height: 200px;"
         >
-
             <img
                 draggable="false"
                 id="img"
                 src="./Img.jpg"
                 alt="Color image"
             >
-
         </div>
-
     </section>
-
-
     <!-- Controls -->
-
     <div id="controls">
-
         <h3>Controls</h3>
-
-
         <div class="control">
-
             <label>
                 Reveal size:
                 <span id="sizeText">200</span>
             </label>
-
             <input
                 type="range"
                 id="size"
@@ -266,17 +238,12 @@
                 max="400"
                 value="200"
             >
-
         </div>
-
-
         <div class="control">
-
             <label>
                 Color:
                 <span id="colorText">100%</span>
             </label>
-
             <input
                 type="range"
                 id="color"
@@ -284,41 +251,29 @@
                 max="100"
                 value="100"
             >
-
         </div>
-
-
         <button id="expand">
             Expand Reveal
         </button>
-
-
         <button id="reset">
             Reset
         </button>
-
     </div>
+<!-- Instructions -->
 
+<div id="instructions">
+    <strong>How to use</strong><br><br>
+    Move mouse → Reveal color<br>
+    Click → Expand reveal<br>
+    + or - → Change reveal size<br>
+    R → Reset settings<br>
+    Drag slider → Change color intensity<br>
+    Use the size slider → Adjust reveal area<br>
+    Move outside image → Explore freely
 
-    <!-- Instructions -->
-
-    <div id="instructions">
-
-        Move mouse → Reveal color<br>
-
-        Click → Expand<br>
-
-        + / - → Change size<br>
-
-        R → Reset
-
-    </div>
-
-
+</div>
     <script>
-
         /* Get elements */
-
         const cursor =
             document.getElementById("cursor");
 
@@ -361,5 +316,3 @@
         let currentX = 0;
         let currentY = 0;
 
-
-        
