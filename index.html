@@ -89,4 +89,277 @@
         }
 
 
-      
+        /* Title */
+
+        #title {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            text-align: center;
+            z-index: 10;
+            cursor: default;
+        }
+        #title h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: normal;
+            letter-spacing: 2px;
+        }
+        #title p {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #aaa;
+        }
+        /* Controls */
+        #controls {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            width: 220px;
+            padding: 15px;
+            background-color: #151515;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: white;
+            cursor: default;
+        }
+        #controls h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 15px;
+            font-weight: normal;
+        }
+        .control {
+            margin-bottom: 15px;
+        }
+        .control label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 12px;
+            color: #ccc;
+        }
+        input[type="range"] {
+            width: 100%;
+
+            cursor: pointer;
+        }
+        button {
+            width: 100%;
+            padding: 9px;
+            margin-top: 5px;
+            border: 1px solid #444;
+            border-radius: 6px;
+            background-color: #222;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+        #instructions {
+            position: fixed;
+
+            right: 20px;
+            bottom: 20px;
+
+            color: #888;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+            text-align: right;
+
+            cursor: default;
+        }
+
+
+        /* Small screen */
+
+        @media (max-width: 700px) {
+
+            #contaigner .img_grey {
+                width: 90vw;
+            }
+
+            #img {
+                width: 90vw;
+            }
+
+            #controls {
+                width: 180px;
+            }
+
+            #title h1 {
+                font-size: 20px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Page title -->
+    <div id="title">
+        <h1>Color Reveal</h1>
+        <p>
+            Move your mouse over the image
+        </p>
+
+    </div>
+    <!-- Main image -->
+
+    <section
+        id="contaigner"
+        style="top: auto; left: auto;"
+    >
+
+        <!-- Grey version -->
+
+        <img
+            draggable="false"
+            class="img_grey"
+            id="greyImage"
+            src="./Img.jpg"
+            alt="Grey image"
+        >
+
+
+        <!-- Reveal circle -->
+
+        <div
+            id="cursor"
+            style="width: 200px; height: 200px;"
+        >
+
+            <img
+                draggable="false"
+                id="img"
+                src="./Img.jpg"
+                alt="Color image"
+            >
+
+        </div>
+
+    </section>
+
+
+    <!-- Controls -->
+
+    <div id="controls">
+
+        <h3>Controls</h3>
+
+
+        <div class="control">
+
+            <label>
+                Reveal size:
+                <span id="sizeText">200</span>
+            </label>
+
+            <input
+                type="range"
+                id="size"
+                min="50"
+                max="400"
+                value="200"
+            >
+
+        </div>
+
+
+        <div class="control">
+
+            <label>
+                Color:
+                <span id="colorText">100%</span>
+            </label>
+
+            <input
+                type="range"
+                id="color"
+                min="0"
+                max="100"
+                value="100"
+            >
+
+        </div>
+
+
+        <button id="expand">
+            Expand Reveal
+        </button>
+
+
+        <button id="reset">
+            Reset
+        </button>
+
+    </div>
+
+
+    <!-- Instructions -->
+
+    <div id="instructions">
+
+        Move mouse → Reveal color<br>
+
+        Click → Expand<br>
+
+        + / - → Change size<br>
+
+        R → Reset
+
+    </div>
+
+
+    <script>
+
+        /* Get elements */
+
+        const cursor =
+            document.getElementById("cursor");
+
+        const img =
+            document.getElementById("img");
+
+        const container =
+            document.getElementById("contaigner");
+
+        const size =
+            document.getElementById("size");
+
+        const color =
+            document.getElementById("color");
+
+        const sizeText =
+            document.getElementById("sizeText");
+
+        const colorText =
+            document.getElementById("colorText");
+
+        const reset =
+            document.getElementById("reset");
+
+        const expand =
+            document.getElementById("expand");
+
+
+        /* Mouse position */
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+
+        /*
+            These two variables are used to make
+            the movement a little smoother.
+        */
+
+        let currentX = 0;
+        let currentY = 0;
+
+
+        
