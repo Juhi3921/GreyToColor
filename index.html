@@ -111,6 +111,20 @@ body {
             color: white;
             cursor: default;
         }
+        /* Controls toggle button */
+#toggleControls {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    width: auto;
+    padding: 9px 14px;
+    z-index: 20;
+}
+
+/* Hide controls */
+#controls.hidden {
+    display: none;
+}
         #controls h3 {
             margin-top: 0;
             margin-bottom: 15px;
@@ -224,41 +238,51 @@ body {
         </div>
     </section>
     <!-- Controls -->
-    <div id="controls">
-        <h3>Controls</h3>
-        <div class="control">
-            <label>
-                Reveal size:
-                <span id="sizeText">200</span>
-            </label>
-            <input
-                type="range"
-                id="size"
-                min="50"
-                max="400"
-                value="200"
-            >
-        </div>
-        <div class="control">
-            <label>
-                Color:
-                <span id="colorText">100%</span>
-            </label>
-            <input
-                type="range"
-                id="color"
-                min="0"
-                max="100"
-                value="100"
-            >
-        </div>
-        <button id="expand">
-            Expand Reveal
-        </button>
-        <button id="reset">
-            Reset
-        </button>
+<div id="controls">
+    <h3>Controls</h3>
+
+    <div class="control">
+        <label>
+            Reveal size:
+            <span id="sizeText">200</span>
+        </label>
+
+        <input
+            type="range"
+            id="size"
+            min="50"
+            max="400"
+            value="200"
+        >
     </div>
+
+    <div class="control">
+        <label>
+            Color:
+            <span id="colorText">100%</span>
+        </label>
+
+        <input
+            type="range"
+            id="color"
+            min="0"
+            max="100"
+            value="100"
+        >
+    </div>
+
+    <button id="expand">
+        Expand Reveal
+    </button>
+
+    <button id="reset">
+        Reset
+    </button>
+</div>
+
+<button id="toggleControls">
+    ⚙ Controls
+</button>
 <!-- Instructions -->
 
 <div id="instructions">
@@ -300,7 +324,8 @@ body {
 
         const expand =
             document.getElementById("expand");
-
+const toggleControls =
+    document.getElementById("toggleControls");
 
         /* Mouse position */
 
@@ -316,3 +341,215 @@ body {
         let currentX = 0;
         let currentY = 0;
 
+
+        /* Get mouse position */
+
+        document.addEventListener(
+            "mousemove",
+            function(event) {
+
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+
+            }
+        );
+        function moveReveal() {
+
+            currentX =
+                currentX +
+                (mouseX - currentX) * 0.15;
+            currentY =
+                currentY +
+                (mouseY - currentY) * 0.15;
+            const containerPosition =
+                container.getBoundingClientRect();
+            const x =
+                currentX -
+                containerPosition.left -
+                cursor.offsetWidth / 2;
+            const y =
+                currentY -
+                containerPosition.top -
+                cursor.offsetHeight / 2;
+            cursor.style.left =
+                x + "px";
+            cursor.style.top =
+                y + "px";
+            img.style.left =
+                -x + "px";
+            img.style.top =
+                -y + "px";
+            requestAnimationFrame(moveReveal);
+        }
+        moveReveal();
+        /* Change reveal size */
+
+        size.addEventListener(
+            "input",
+            function() {
+                const value =
+                    Number(this.value);
+                cursor.style.width =
+                    value + "px";
+                cursor.style.height =
+                    value + "px";
+                sizeText.textContent =
+                    value;
+
+            }
+        );
+        /* Change color intensity */
+        color.addEventListener(
+            "input",
+            function() {
+                const value =
+                    Number(this.value);
+                img.style.filter =
+                    "saturate(" + value + "%)";
+                colorText.textContent =
+                    value + "%";
+
+            }
+        );
+        /*
+            Expand the reveal circle when clicked.
+        */
+        function expandReveal() {
+            const oldWidth =
+                cursor.offsetWidth;
+            const oldHeight =
+                cursor.offsetHeight;
+            cursor.style.width =
+                oldWidth * 1.5 + "px";
+            cursor.style.height =
+                oldHeight * 1.5 + "px";
+            setTimeout(
+                function() {
+                    cursor.style.width =
+                        oldWidth + "px";
+                    cursor.style.height =
+                        oldHeight + "px";
+                },
+                400
+            );
+
+        }
+
+
+        /* Click anywhere on image */
+
+        document.addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target.tagName === "BUTTON" ||
+                    event.target.tagName === "INPUT"
+                ) {
+                    return;
+                }
+
+                expandReveal();
+
+            }
+        );
+
+
+        /* Expand button */
+        expand.addEventListener(
+            "click",
+            function() {
+                expandReveal();
+
+            }
+        );
+        /* Reset */
+        reset.addEventListener(
+            "click",
+            function() {
+
+                size.value = 200;
+
+                color.value = 100;
+
+
+                cursor.style.width =
+                    "200px";
+
+
+                cursor.style.height =
+                    "200px";
+
+
+                img.style.filter =
+                    "saturate(100%)";
+
+
+                sizeText.textContent =
+                    "200";
+
+
+                colorText.textContent =
+                    "100%";
+
+            }
+        );
+
+
+        /* Keyboard controls */
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                /* R = reset */
+
+                if (
+                    event.key.toLowerCase() === "r"
+                ) {
+
+                    reset.click();
+
+                }
+                /* + = increase size */
+                if (
+                    event.key === "+" ||
+                    event.key === "="
+                ) {
+
+                    let value =
+                        Number(size.value);
+                    value =
+                        Math.min(
+                            value + 20,
+                            400
+                        );
+                    size.value =
+                        value;
+                    size.dispatchEvent(
+                        new Event("input")
+                    );
+                }
+                /* - = decrease size */
+                if (
+                    event.key === "-"
+                ) {
+                    let value =
+                        Number(size.value);
+                    value =
+                        Math.max(
+                            value - 20,
+                            50
+                        );
+                    size.value =
+                        value;
+                    size.dispatchEvent(
+                        new Event("input")
+                    );
+                }
+
+            }
+        );
+    </script>
+</body>
+</html>
