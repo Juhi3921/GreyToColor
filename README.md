@@ -31,3 +31,4 @@ How to Use
 
 
 Screensot:
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/3ee6ce4d-af9e-433e-9081-b87132c2f59f" />
